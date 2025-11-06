@@ -1,7 +1,8 @@
 package com.radaspot.radarspot.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import com.radaspot.radarspot.entity.Crypto;
-import java.util.UUID;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface CryptoRepository extends JpaRepository<Crypto, UUID> {}
+public interface CryptoRepository extends JpaRepository<Crypto, Long>, JpaSpecificationExecutor<Crypto> {
+}

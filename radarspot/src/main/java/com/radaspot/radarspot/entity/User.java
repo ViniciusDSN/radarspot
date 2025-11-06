@@ -3,33 +3,32 @@ package com.radaspot.radarspot.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
+@Table(name = "users")
 @Getter @Setter @NoArgsConstructor
 public class User {
 
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Column(nullable = false)
     private String name;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
+    // para demo: armazenamos hash/senha simples. Em produção, use hashing.
+    @Column(nullable = false)
     private String password;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @PrePersist
-    public void onCreate() {
-        createdAt = updatedAt = LocalDateTime.now();
-    }
+    public void prePersist() { createdAt = updatedAt = LocalDateTime.now(); }
 
     @PreUpdate
-    public void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+    public void preUpdate() { updatedAt = LocalDateTime.now(); }
 }

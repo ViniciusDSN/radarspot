@@ -3,32 +3,32 @@ package com.radaspot.radarspot.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Entity
+@Table(name = "cryptos")
 @Getter @Setter @NoArgsConstructor
 public class Crypto {
 
     @Id
-    @GeneratedValue
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private String symbol; // ex: BTC
-    private double amount;
+    @Column(nullable = false)
+    private String symbol; // ex: "BTC"
 
-    @ManyToOne
+    @Column(nullable = false)
+    private Double amount; // quantidade possuída
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "wallet_id")
     private Wallet wallet;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @PrePersist
-    public void onCreate() {
-        createdAt = updatedAt = LocalDateTime.now();
-    }
+    public void prePersist() { createdAt = updatedAt = LocalDateTime.now(); }
 
     @PreUpdate
-    public void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
+    public void preUpdate() { updatedAt = LocalDateTime.now(); }
 }
